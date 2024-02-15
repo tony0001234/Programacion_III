@@ -1,5 +1,24 @@
 from os import system #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
 
+class Nodo:
+    def__init__(self, nombre, apellido, carne)
+    self.nombre = nombre
+    self.apellido = apellido
+    self.carne = carne
+    self.sig = None
+    self.ant = None
+
+class lista2ble:
+    def__init__(self)
+    self.head = None
+    self.taile = None
+
+def agregar_ele(self, nombre, apelldio, carne):
+    nuevo_nodo = Nodo(nombre, apelldio, carne)
+    nuevo_nodo.sig = self.head
+    self.head = nuevo_nodo
+    nuevo_nodo.ant = self.taile
+
 while True:
     print("/////////////////////MENU PRINCIPAL////////////////////////////")
     print("1. Insertar al principio")
