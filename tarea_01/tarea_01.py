@@ -6,18 +6,37 @@ class Nodo:
     self.apellido = apellido
     self.carne = carne
     self.sig = None
-    self.ant = None
-
+    self.ant = None  
+    
 class lista2ble:
-    def__init__(self)
-    self.head = None
-    self.taile = None
+    def __init__(self):
+        self.inicio = None
+        self.final = None
+        self.contador = 0
 
 def agregar_ele(self, nombre, apelldio, carne):
-    nuevo_nodo = Nodo(nombre, apelldio, carne)
-    nuevo_nodo.sig = self.head
-    self.head = nuevo_nodo
-    nuevo_nodo.ant = self.taile
+        nuevo_nodo = Nodo(nombre, apelldio, carne)
+
+if self.inicio is None:
+        self.inicio = nuevo_nodo
+        self.final = self.inicio
+
+else:
+     nodo.ant = self.final
+     self.final.sig = nuevo_nodo
+     self.final = nuevo_nodo
+
+     self.contador += 1
+
+     def recorrer(self):
+          actual = self.inicio
+
+          while actual:
+               dato = actual.nombre
+               actual = actual.sig
+               yield nombre
+
+lista = lista2ble()
 
 while True:
     print("/////////////////////MENU PRINCIPAL////////////////////////////")
@@ -30,7 +49,12 @@ while True:
     
     if opc =="1":
         system("cls")
-        print("Presiono la opcion 1")
+        print("Presiono la opcion 1 /n")
+        nombre = input("Ingrese el nombre: ")
+        apellido = input("Ingrese el apellido: ")
+        carne = input("Ingrese el numero de carne: ")
+        lista.agregar_ele(nombre, apellido, carne)
+        print ('Cantidad de elementos en la lista', lista.contador)
     elif opc =="2":
         system("cls")
         print("Presiono la opcion 2")
