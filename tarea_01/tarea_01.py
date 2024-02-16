@@ -44,6 +44,39 @@ class lista2ble:
 
             self.contador += 1
 
+    def eliminar(self, carneElm):
+          actual = self.inicio
+
+          while actual:
+               carneAct = actual.carne
+               actualAuxAnt = actual.ant
+               actualAuxSig = actual.sig
+               actual = actual.sig
+               if carneElm == carneAct:
+                   if carneElm == self.inicio.carne:
+                        self.inicio = actualAuxSig
+                        actual.sig = None
+                        actualAuxSig.ant = None
+                        actual = self.inicio
+                        textoElimP = "Se borro el primer registro"
+                        yield textoElimP
+                   elif carneElm == self.final.carne:
+                        self.final = actualAuxAnt
+                        actual.ant = None
+                        actualAuxAnt.sig = None
+                        actual = self.final
+                        textoElimP = "Se borro el ultimio registro"
+                        yield textoElimP
+                   actualAuxAnt.sig = actualAuxSig
+                   actualAuxSig.ant = actualAuxAnt
+                   textoOk = "Eliminado exitosamente"
+                   lista.contador -= 1
+                   yield textoOk
+               elif carneAct == None:
+                   textoErr = "Error, carnet no encontrado"
+                   lista.contador -= 1
+                   yield textoErr
+
     def recorrer(self):
           actual = self.inicio
 
@@ -58,6 +91,7 @@ class lista2ble:
 lista = lista2ble()
 
 while True:
+    print()
     print("/////////////////////MENU PRINCIPAL////////////////////////////")
     print("1. Insertar al principio")
     print("2. Insertar al final")
@@ -68,6 +102,7 @@ while True:
     
     if opc =="1":
         system("cls")
+        print()
         print("Presiono la opcion: 1")
         nombreIn = input("Ingrese el nombre: ")
         apellidoIn = input("Ingrese el apellido: ")
@@ -77,6 +112,7 @@ while True:
 
     elif opc =="2":
         system("cls")
+        print()
         print("Presiono la opcion: 2")
         nombreIn = input("Ingrese el nombre: ")
         apellidoIn = input("Ingrese el apellido: ")
@@ -86,7 +122,12 @@ while True:
 
     elif opc =="3":
         system("cls")
+        print()
         print("Presiono la opcion: 3")
+        carneElm = input("Ingrese el carne a eliminar: ")
+        print()
+        for reco in lista.eliminar(carneElm):
+            print(reco)
 
     elif opc =="4":
         system("cls")
