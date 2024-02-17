@@ -23,10 +23,9 @@ class lista2ble:
             self.contador += 1
 
         else:
-            nuevo_nodo.ant = self.final
-            self.final.sig = nuevo_nodo
-            self.final = nuevo_nodo
-
+            nuevo_nodo.sig = self.inicio
+            self.inicio.ant = nuevo_nodo
+            self.inicio = nuevo_nodo
             self.contador += 1
 
     def agregar_ele_final(self, nombre, apellido, carne):
@@ -38,10 +37,9 @@ class lista2ble:
             self.contador += 1
 
         else:
-            nuevo_nodo.sig = self.final
-            self.final.ant = nuevo_nodo
-            self.inicio = nuevo_nodo
-
+            nuevo_nodo.ant = self.final
+            self.final.sig = nuevo_nodo
+            self.final = nuevo_nodo
             self.contador += 1
 
     def eliminar(self, carneElm):
@@ -53,28 +51,33 @@ class lista2ble:
                actualAuxSig = actual.sig
                actual = actual.sig
                if carneElm == carneAct:
-                   if carneElm == self.inicio.carne:
-                        self.inicio = actualAuxSig
-                        actual.sig = None
-                        actualAuxSig.ant = None
-                        actual = self.inicio
+                   if lista.contador == 1:
+                        self.inicio = None
+                        self.final = None
+                        lista.contador -= 1
+                        textoElimU = "Se borro el unico registro"
+                        yield textoElimU
+                   elif carneElm == self.inicio.carne:
+                        self.inicio = self.inicio.sig
+                        self.inicio.ant =None
+                        lista.contador -= 1
                         textoElimP = "Se borro el primer registro"
                         yield textoElimP
                    elif carneElm == self.final.carne:
-                        self.final = actualAuxAnt
-                        actual.ant = None
-                        actualAuxAnt.sig = None
+                        self.final = self.final.ant
+                        self.final.sig =None
                         actual = self.final
-                        textoElimP = "Se borro el ultimio registro"
-                        yield textoElimP
-                   actualAuxAnt.sig = actualAuxSig
-                   actualAuxSig.ant = actualAuxAnt
-                   textoOk = "Eliminado exitosamente"
-                   lista.contador -= 1
-                   yield textoOk
+                        lista.contador -= 1
+                        textoElimF = "Se borro el ultimio registro"
+                        yield textoElimF
+                   else:
+                       actualAuxAnt.sig = actualAuxSig
+                       actualAuxSig.ant = actualAuxAnt
+                       textoOk = "Registro eliminado exitosamente"
+                       lista.contador -= 1
+                       yield textoOk
                elif carneAct == None:
                    textoErr = "Error, carnet no encontrado"
-                   lista.contador -= 1
                    yield textoErr
 
     def recorrer(self):
@@ -107,7 +110,7 @@ while True:
         nombreIn = input("Ingrese el nombre: ")
         apellidoIn = input("Ingrese el apellido: ")
         carneIn = input("Ingrese el numero de carne: ")
-        lista.agregar_ele_final(nombreIn, apellidoIn, carneIn)
+        lista.agregar_ele(nombreIn, apellidoIn, carneIn)
         print ('Cantidad de elementos en la lista', lista.contador)
 
     elif opc =="2":
@@ -117,7 +120,7 @@ while True:
         nombreIn = input("Ingrese el nombre: ")
         apellidoIn = input("Ingrese el apellido: ")
         carneIn = input("Ingrese el numero de carne: ")
-        lista.agregar_ele(nombreIn, apellidoIn, carneIn)
+        lista.agregar_ele_final(nombreIn, apellidoIn, carneIn)
         print ('Cantidad de elementos en la lista', lista.contador)
 
     elif opc =="3":
