@@ -1,4 +1,32 @@
-from os import system #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
+from os import system, startfile #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
+
+class graph:
+    def __init__(self, dato1, dato2, dato3, dato4, dato5):
+        def generarGraphviz(dato1, dato2, dato3, dato4, dato5):
+            graphviz='''
+            digraph G {
+
+            subgraph cluster_0 {
+                node [style=filled,color="#00CED1"];
+                ''' + dato1 + ''';
+                ''' + dato2 + ''';
+            }
+
+            ''' + dato3 + ''';
+            ''' + dato4 + ''';
+
+            '''+dato5+'''start [shape=Mdiamond];
+                label = "Lista 2blemente enl";
+            }
+        '''
+
+            miArchivo = open('graphviz.dot', 'w')
+            miArchivo.write(graphviz)
+            miArchivo.close()
+
+            system('dot -Tpng graphviz.dot -o graphviz.png')
+            system('cd ./graphviz.png')
+            startfile('graphviz.png')
 
 class Nodo:
     def __init__(self, nombre, apellido, carne):
@@ -138,6 +166,30 @@ while True:
         print("Presiono la opcion: 4")
         print('Cantidad de elementos en la lista: ', lista.contador)
         print()
+
+        if lista.contador == 0:
+            dato1 = ""
+            dato2 = ""
+            dato3 = ""
+            dato4 = ""
+            dato5 = "//"
+        elif lista.contador == 1:
+            dato1 = "a"+str(i)
+            dato2 = "a"+str(operacion)
+            dato3 = "start -> a"+str(i)
+            dato4 = "a"+str(operacion)
+            dato5 = ""
+        else:
+            for i in range(lista.contador):
+                operacion = lista.contador-i
+                dato1 += "a"+str(i)+" -> "
+                dato2 += "a"+ str(operacion) +" -> "
+
+                dato3 += "start -> a"+str(i)
+                dato4 += "a"+ str(operacion) +" -> end"
+                dato5 = " "
+
+        graph.generarGraphviz(dato1, dato2, dato3, dato4, dato5)
 
         for reco in lista.recorrer():
             print(reco)

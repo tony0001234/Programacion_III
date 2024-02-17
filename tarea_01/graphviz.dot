@@ -1,0 +1,16 @@
+
+        digraph G {
+
+        subgraph cluster_0 {
+            node [style=filled,color="#00CED1"];
+            ;
+            ;
+        }
+
+        ;
+        ;
+
+        //start [shape=Mdiamond];
+            label = "Lista 2blemente enl";
+        }
+    
