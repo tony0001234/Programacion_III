@@ -1,0 +1,14 @@
+digraph G {
+
+  subgraph cluster_0 {
+    node [style=filled,color="#00CED1"];
+    a0 -> a1 -> a2 -> a3;
+    a3 -> a2 -> a1 -> a0;
+  }
+
+  start -> a0;
+  a3 -> end;
+
+  start [shape=Mdiamond];
+    label = "Lista 2blemente enl";
+}
