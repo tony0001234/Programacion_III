@@ -213,6 +213,7 @@ while True:
         graph.render('lista_2blemente_enlazada', format='png', cleanup=True)
         system('cd ./lista_2blemente_enlazada.png')
         startfile('lista_2blemente_enlazada.png')
+        
         for reco in lista.recorrer():
             print(reco)
     elif opc =="5":
