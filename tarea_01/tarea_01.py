@@ -1,6 +1,6 @@
 from os import system, startfile #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
 import graphviz
-
+#
 #class graph:
 #    def __init__(self, dato1, dato2, dato3, dato4, dato5):
 #        self.dato1 = dato1
