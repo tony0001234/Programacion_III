@@ -1,32 +1,39 @@
 from os import system, startfile #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
+import graphviz
 
-class graph:
-    def __init__(self, dato1, dato2, dato3, dato4, dato5):
-        def generarGraphviz(dato1, dato2, dato3, dato4, dato5):
-            graphviz='''
-            digraph G {
+#class graph:
+#    def __init__(self, dato1, dato2, dato3, dato4, dato5):
+#        self.dato1 = dato1
+#        self.dato2 = dato2
+#        self.dato3 = dato3
+#        self.dato4 = dato4
+#        self.dato5 = dato5
+#        def generarGraphviz(dato1, dato2, dato3, dato4, dato5):
+         
+#            graphviz='''
+#            digraph G {
 
-            subgraph cluster_0 {
-                node [style=filled,color="#00CED1"];
-                ''' + dato1 + ''';
-                ''' + dato2 + ''';
-            }
+#            subgraph cluster_0 {
+#                node [style=filled,color="#00CED1"];
+#                ''' + dato1 + ''';
+#                ''' + dato2 + ''';
+#            }
 
-            ''' + dato3 + ''';
-            ''' + dato4 + ''';
+#            ''' + dato3 + ''';
+#            ''' + dato4 + ''';
 
-            '''+dato5+'''start [shape=Mdiamond];
-                label = "Lista 2blemente enl";
-            }
-        '''
+#            '''+dato5+'''start [shape=Mdiamond];
+#                label = "Lista 2blemente enl";
+#            }
+#        '''
 
-            miArchivo = open('graphviz.dot', 'w')
-            miArchivo.write(graphviz)
-            miArchivo.close()
+#            miArchivo = open('graphviz.dot', 'w')
+#            miArchivo.write(graphviz)
+#            miArchivo.close()
 
-            system('dot -Tpng graphviz.dot -o graphviz.png')
-            system('cd ./graphviz.png')
-            startfile('graphviz.png')
+#            system('dot -Tpng graphviz.dot -o graphviz.png')
+#            system('cd ./graphviz.png')
+#            startfile('graphviz.png')
 
 class Nodo:
     def __init__(self, nombre, apellido, carne):
@@ -119,6 +126,18 @@ class lista2ble:
                textoEnt = "\n\n" + 'Nombre: ' + nombreAct + "\n" + 'Apellido: ' + apellidoAct + "\n" + 'Carne: ' + carneAct
                yield textoEnt
 
+    def generar_graph(self):
+        dot = graphviz.Digraph(comment='Lista 2blemente enlz')
+        nodoV = self.inicio
+        while nodoV:
+            dot.node(str(id(nodoV)), str(nodoV.carne))
+            if nodoV.ant:
+                dot.edge(str(id(nodoV.ant)), str(id(nodoV)), label='prev')
+            if nodoV.sig:
+                dot.edge(str(id(nodoV)), str(id(nodoV.sig)), label='next')
+            nodoV = nodoV.sig
+        return dot
+
 lista = lista2ble()
 
 while True:
@@ -167,30 +186,33 @@ while True:
         print('Cantidad de elementos en la lista: ', lista.contador)
         print()
 
-        if lista.contador == 0:
-            dato1 = ""
-            dato2 = ""
-            dato3 = ""
-            dato4 = ""
-            dato5 = "//"
-        elif lista.contador == 1:
-            dato1 = "a"+str(i)
-            dato2 = "a"+str(operacion)
-            dato3 = "start -> a"+str(i)
-            dato4 = "a"+str(operacion)
-            dato5 = ""
-        else:
-            for i in range(lista.contador):
-                operacion = lista.contador-i
-                dato1 += "a"+str(i)+" -> "
-                dato2 += "a"+ str(operacion) +" -> "
+#        if lista.contador == 0:
+#            dato1 = ""
+#            dato2 = ""
+#            dato3 = ""
+#            dato4 = ""
+#            dato5 = "//"
+#        elif lista.contador == 1:
+#            dato1 = "a"+"0"
+#            dato2 = "a"+"0"
+#            dato3 = "start -> a"+"0"
+#            dato4 = "a"+"0"
+#            dato5 = ""
+#        else:
+#            for i in range(lista.contador):
+#                operacion = lista.contador-i
+#                dato1 += "a"+str(i-1)+"-> a"+str(i)+" -> "
+#                dato2 += "a"+ str(operacion) +" -> "
 
-                dato3 += "start -> a"+str(i)
-                dato4 += "a"+ str(operacion) +" -> end"
-                dato5 = " "
+#                dato3 += "start -> a"+str(i)
+#                dato4 += "a"+ str(operacion) +" -> end"
+#                dato5 = " "
 
-        graph.generarGraphviz(dato1, dato2, dato3, dato4, dato5)
-
+#        graph.generarGraphviz(dato1, dato2, dato3, dato4, dato5)
+        graph = lista.generar_graph()
+        graph.render('lista_2blemente_enlazada', format='png', cleanup=True)
+        system('cd ./lista_2blemente_enlazada.png')
+        startfile('lista_2blemente_enlazada.png')
         for reco in lista.recorrer():
             print(reco)
     elif opc =="5":
