@@ -8,3 +8,6 @@ Anthony Fabian Ramirez Orellana carne: 9490-22-958 Participacion = 100%
 Ejecucion:
 Para ejecutar el programa la maquina debe ejecutar el archivo "tarea_01.py" inmediatamente se le abrira en consola el menu del programa, en el cual debera de seleccionar una funcion, cabe recalcar que si elije la opcion de "Mostrar lista" sin nodos introducidos no mostrara nada igualmente si desea eliminar un nodo, el programa unicamente regresara al menu.
 cuando se despliegue el grapho en png este muestra los carne de las personas ingresada, pero esto se puede modificar en una simple linea.
+
+Adjunto un link de drive con el mismo video "WATCHME.mp4" por si no se puede ver solo asi:
+https://drive.google.com/file/d/1CrZU8KIXwKBssfRu5BCzpgvhhLN4fjyd/view?usp=sharing
