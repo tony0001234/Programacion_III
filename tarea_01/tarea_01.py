@@ -132,9 +132,9 @@ class lista2ble:
         while nodoV:
             dot.node(str(id(nodoV)), str(nodoV.carne))
             if nodoV.ant:
-                dot.edge(str(id(nodoV.ant)), str(id(nodoV)), label='prev')
+                dot.edge(str(id(nodoV.ant)), str(id(nodoV)), label='ant')
             if nodoV.sig:
-                dot.edge(str(id(nodoV)), str(id(nodoV.sig)), label='next')
+                dot.edge(str(id(nodoV)), str(id(nodoV.sig)), label='sig')
             nodoV = nodoV.sig
         return dot
 
