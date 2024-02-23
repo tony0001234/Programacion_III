@@ -47,6 +47,7 @@ while True:
             numeroConv = convertir_a_binario(numeroIn)
             print(f"El numero: {numeroIn} En binario es: {numeroConv}")
         except ValueError as e:
+            print("Error: porfavor ingrese un valor valido")
             print(f"Error: {e}")
 
     elif(opc == "6"):
