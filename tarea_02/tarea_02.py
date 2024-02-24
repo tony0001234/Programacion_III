@@ -11,13 +11,6 @@ def menu():
     print("5. Suma de numeros enteros")
     print("6. Salir")
 
-"""def convertir_a_binario(numeroABin):
-    if(numeroABin == 0):
-        return ""
-    else:
-        return convertir_a_binario(numeroABin // 2)+str(numeroABin % 2)
-
-        """
 def convertir_a_binario(numeroABin):
     if(numeroABin < 0):
         raise ValueError
@@ -43,8 +36,6 @@ def raiz_cuadrada_entera(numeroEn):
 def calcular_raiz_cuadrada(numeroRC):
     return round(sqrt(numeroRC))
 
-
-
 while True:
 
     menu();
@@ -61,7 +52,7 @@ while True:
             print("Error: Porfavor ingrese un valor valido")
             print(f"Error: {e}")
     
-    if(opc == "2"):
+    elif(opc == "2"):
         system("cls")
         try:
             numero2 = int(input("Ingrese un numero entero para calcular sus digitos: "))
@@ -71,7 +62,7 @@ while True:
             print("Error: Porfavor ingrese un valor valido")
             print(f"Error: {e}")
 
-    if(opc == "3"):
+    elif(opc == "3"):
         numero3 = 0
         system("cls")
         try:
@@ -81,15 +72,7 @@ while True:
             print("Error: Porfavor ingrese un valor valido")
             print(f"Error: {e}")
             
-    if(opc == "4"):
-        system("cls")
-        try:
-            numeroRom = str(input("Ingrese el numero Romano que desea convertir: "))
 
-
-        except ValueError as e:
-            print("Error: Porfavor ingrese un valor valido")
-            print(f"Error: {e}")
 
     elif(opc == "6"):
         break
