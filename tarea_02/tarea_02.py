@@ -46,6 +46,13 @@ def convertir_a_decimal(numeroRm):
         return caracteresRm[numeroRm[1]] - caracteresRm[numeroRm[0]] + convertir_a_decimal(numeroRm[2:])
     else:
         return caracteresRm[numeroRm[0]] + convertir_a_decimal(numeroRm[1:])
+    
+def validar_char(numeroRc):
+    charV = {'I', 'V', 'X', 'L', 'C', 'D', 'M'}
+    for char in numeroRc:
+        if char not in charV:
+            return False
+    return True
 
 def suma_numeros_enteros(numeroSu):
     if(numeroSu == 0):
@@ -94,8 +101,15 @@ while True:
         system("cls")
         try:
             numeroRom = input("Ingrese el numero Romano que desea convertir: ").upper()
-            numeroDec = convertir_a_decimal(numeroRom)
-            print(f"El numero romano: {numeroRom} en decimales es: {numeroDec}")
+            if(numeroRom.isdigit() == True or numeroRom[0] == '-'):
+                print("Error: Debe ingresar los numeros Romanos")
+            else:
+                charOk = validar_char(numeroRom)
+                if(charOk):
+                    numeroDec = convertir_a_decimal(numeroRom)
+                    print(f"El numero romano: {numeroRom} en decimales es: {numeroDec}")
+                else:
+                    print("Error: Porfavor ingrese numeros romanos validos.")
 
         except ValueError as e:
             print("Error: Porfavor ingrese un valor valido")
