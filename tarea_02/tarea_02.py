@@ -36,6 +36,20 @@ def raiz_cuadrada_entera(numeroEn):
 def calcular_raiz_cuadrada(numeroRC):
     return round(sqrt(numeroRC))
 
+def convertir_a_decimal(numeroRm):
+    caracteresRm = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    if not numeroRm:
+        return 0
+    if(len(numeroRm) == 1):
+        return caracteresRm[numeroRm[0]]
+    if(caracteresRm[numeroRm[0]] < caracteresRm[numeroRm[1]]):
+        return caracteresRm[numeroRm[1]] - caracteresRm[numeroRm[0]] + convertir_a_decimal(numeroRm[2:])
+    else:
+        return caracteresRm[numeroRm[0]] + convertir_a_decimal(numeroRm[1:])
+
+
+
+
 while True:
 
     menu();
@@ -72,7 +86,16 @@ while True:
             print("Error: Porfavor ingrese un valor valido")
             print(f"Error: {e}")
             
+    elif(opc == "4"):
+        system("cls")
+        try:
+            numeroRom = input("Ingrese el numero Romano que desea convertir: ").upper()
+            numeroDec = convertir_a_decimal(numeroRom)
+            print(f"El numero romano: {numeroRom} en decimales es: {numeroDec}")
 
+        except ValueError as e:
+            print("Error: Porfavor ingrese un valor valido")
+            print(f"Error: {e}")
 
     elif(opc == "6"):
         break
