@@ -47,8 +47,12 @@ def convertir_a_decimal(numeroRm):
     else:
         return caracteresRm[numeroRm[0]] + convertir_a_decimal(numeroRm[1:])
 
+def suma_numeros_enteros(numeroSu):
+    if(numeroSu == 0):
+        return numeroSu
 
-
+    else:
+        return suma_numeros_enteros(numeroSu-1) + numeroSu
 
 while True:
 
@@ -92,6 +96,19 @@ while True:
             numeroRom = input("Ingrese el numero Romano que desea convertir: ").upper()
             numeroDec = convertir_a_decimal(numeroRom)
             print(f"El numero romano: {numeroRom} en decimales es: {numeroDec}")
+
+        except ValueError as e:
+            print("Error: Porfavor ingrese un valor valido")
+            print(f"Error: {e}")
+
+    elif(opc == "5"):
+        system("cls")
+        try:
+            numeroDad = int(input("Ingrese el numero final de la sumatoria desde cero: "))
+            if(numeroDad < 0):
+                print("Error: El numero debe de ser positivo")
+            else:
+                print(f"La sumatoria desde 0 hasta {numeroDad} es: {suma_numeros_enteros(numeroDad)}")
 
         except ValueError as e:
             print("Error: Porfavor ingrese un valor valido")
