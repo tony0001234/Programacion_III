@@ -130,11 +130,11 @@ class lista2ble:
         dot = graphviz.Digraph(comment='Lista 2blemente enlz')
         nodoV = self.inicio
         while nodoV:
-            dot.node(str(id(nodoV)), str(nodoV.carne))
+            dot.node(  str(  id(nodoV)  ), str(nodoV.carne)  )
             if nodoV.ant:
-                dot.edge(str(id(nodoV.ant)), str(id(nodoV)), label='ant')
+                dot.edge(  str(  id(nodoV.ant)  ), str(  id(nodoV)  ), label='ant')
             if nodoV.sig:
-                dot.edge(str(id(nodoV)), str(id(nodoV.sig)), label='sig')
+                dot.edge(  str(  id(nodoV)  ), str(  id(  nodoV.sig)  ), label='sig')
             nodoV = nodoV.sig
         return dot
 
