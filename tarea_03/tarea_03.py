@@ -23,6 +23,28 @@ class ABB:
             nodo.der = self.inserta2(valor, nodo.der)
         return nodo
     
+    def insertArchi(self, valores):
+        if(  isinstance(valores, list)  ):
+            for valor in valores:
+                self.raiz = self.insertArchiva2(self.raiz, valor)
+        else:
+            self.raiz = self.insertArchiva2(self.raiz, valor)
+    def insertArchiva2(self, nodo, valor):
+        if(nodo is None):
+            return NodoA(valor)
+        if(valor < nodo.valor):
+            nodo.izq = self.insertArchiva2(nodo.izq, valor)
+        elif(valor > nodo.valor):
+            nodo.der = self.insertArchiva2(nodo.der, valor)
+        return nodo
+
+#    def leerArchivo(direArch):#archivo contiene valores separados por lineas
+#        with open(direArch, 'r') as file:
+#            valores = file.readlines()
+#        valores = [  int(  val.strip()  )  for val in valores]
+#        return valores
+
+
     def buscar(self, valor):
         return self.busca2(valor, self.raiz)
     def busca2(self, valor, nodo):
@@ -37,6 +59,38 @@ class ABB:
         else:
             return self.busca2(valor, nodo.der)
         
+    def eliminar(self, valor):
+        self.raiz = self.elimina2(self.raiz, valor)################
+    def elimina2(self, nodo, valor):
+        if(nodo is None):
+            return nodo
+
+        if(valor < nodo.valor):
+            nodo.izq = self.elimina2(nodo.izq, valor)
+        elif(valor > nodo.valor):
+            nodo.der = self.elimina2(nodo.der, valor)
+        
+        else:
+            if(nodo.izq is None):#nodo con solo un hijo o sin hijos
+                temp = nodo.der
+                nodo = None
+                return temp
+            elif(nodo.der is None):
+                temp = nodo.izq
+                nodo = None
+                return temp
+
+            temp = self.valorMin(nodo.der)#nodo con dos hijos, agarro el sucesor en modo inOrder
+            nodo.valor = temp.valor##Copio el valor del sucesor para el nodo
+            nodo.der = self.elimina2(nodo.der, temp.valor)#elimino el sucesor
+        return nodo
+    
+    def valorMin(self, nodo):
+        actual = nodo
+        while actual.izq:
+            actual = actual.izq
+        return actual
+
     def preOrderGrap(self, nodo):
         #dot = graphviz.Digraph(comment='Arbol_B_B')
 
@@ -51,7 +105,7 @@ class ABB:
                 self.preOrderGrap(nodo.der)
               #  dot.edge(  str(  id(nodo)  ), str(  id(nodo.der)  ), label='der'  )
             #return dot
-    i=0
+    numeroDeNodos=0
     def generate_graph(self):
         dot = graphviz.Digraph(comment='Arbo_B_B')
         
@@ -60,14 +114,14 @@ class ABB:
                 if(nodo.izq):
                     dot.edge(  str(nodo.valor), str(nodo.izq.valor), label='izq')
                     add_edges(nodo.izq)
-                    self.i +=1
+                    self.numeroDeNodos +=1
                 if(nodo.der):
                     dot.edge(  str(nodo.valor), str(nodo.der.valor), label='der')
                     add_edges(nodo.der)
-                    self.i +=1
-                elif(self.i == 0):
+                    self.numeroDeNodos +=1
+                elif(self.numeroDeNodos == 0):
                     dot.node(  str(  id(nodo)  ), str(nodo.valor)  )
-                    self.i +=1
+                    self.numeroDeNodos +=1
         add_edges(self.raiz)
         return dot
 
@@ -98,7 +152,6 @@ while True:
 
             graph = arbol.generate_graph()
             graph.render('Arbol_B_B', format='png', cleanup=True)
-            system('cd ./Arbol_B_B.png')
             startfile('Arbol_B_B.png')
 
         except ValueError as e:
@@ -113,7 +166,6 @@ while True:
 
             graph = arbol.generate_graph()
             graph.render('Arbol_B_B', format='png', cleanup=True)
-            system('cd ./Arbol_B_B.png')
             startfile('Arbol_B_B.png')
 
         except ValueError as e:
@@ -122,9 +174,39 @@ while True:
 
     elif(opc == 3):#Opcion Eliminar
         system("cls")
+        try:
+            valorElim = int(  input("Introdusca el valor que desea eliminar: ")  )
+            arbol.eliminar(valorElim)
+
+            print("Valor eliminado!!!!")
+            graph = arbol.generate_graph()
+            graph.render('Arbol_B_B', format='png', cleanup=True)
+            startfile('Arbol_B_B.png')
+        
+        except ValueError as e:
+            print("Error: Porfavor ingrese un valor valido.")
+            print(f"Error: {e}")
+
 
     elif(opc == 4):#Opcion cargar desde archivo
         system("cls")
+        direArch = input("Igrese la direccion del archivo: ")
+
+        with open(direArch, "r") as archivo:
+            datos = archivo.readlines()
+            for linea in datos:
+                try:
+                    valores = int( linea.strip() )
+                    arbol.insertArchi(valores)
+                except ValueError:
+                    print(f"Ignorando los valores no enteros: {linea.strip()}")
+
+        #valores = arbol.leerArchivo(direArch)
+
+        graph = arbol.generate_graph()
+        graph.render('Arbol_B_B', format='png', cleanup=True)
+        startfile('Arbol_B_B.png')
+
 
     elif(opc == 5):#Opcion salir
         break
