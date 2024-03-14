@@ -1,5 +1,5 @@
 from os import system, startfile #importo os para utilizar funcionalidades dependientes del sistema operativo, en este caso el system("cls")
-import graphviz
+import graphviz, re
 
 class NodoA:
     def __init__(self, valor):
@@ -38,13 +38,6 @@ class ABB:
             nodo.der = self.insertArchiva2(nodo.der, valor)
         return nodo
 
-#    def leerArchivo(direArch):#archivo contiene valores separados por lineas
-#        with open(direArch, 'r') as file:
-#            valores = file.readlines()
-#        valores = [  int(  val.strip()  )  for val in valores]
-#        return valores
-
-
     def buscar(self, valor):
         return self.busca2(valor, self.raiz)
     def busca2(self, valor, nodo):
@@ -60,7 +53,7 @@ class ABB:
             return self.busca2(valor, nodo.der)
         
     def eliminar(self, valor):
-        self.raiz = self.elimina2(self.raiz, valor)################
+        self.raiz = self.elimina2(self.raiz, valor)##
     def elimina2(self, nodo, valor):
         if(nodo is None):
             return nodo
@@ -92,19 +85,14 @@ class ABB:
         return actual
 
     def preOrderGrap(self, nodo):
-        #dot = graphviz.Digraph(comment='Arbol_B_B')
 
         if(nodo != None):
-            #dot.node(  str(  id(nodo)  ), str(nodo.valor)  )
             print(nodo.valor)
 
             if(nodo.izq != None):
-             #   dot.edge(  str(  id(nodo)  ), str(  id(nodo.izq)  ), label='izq'  )
                 self.preOrderGrap(nodo.izq)
             if(nodo.der != None):
                 self.preOrderGrap(nodo.der)
-              #  dot.edge(  str(  id(nodo)  ), str(  id(nodo.der)  ), label='der'  )
-            #return dot
     numeroDeNodos=0
     def generate_graph(self):
         dot = graphviz.Digraph(comment='Arbo_B_B')
@@ -190,20 +178,23 @@ while True:
 
     elif(opc == 4):#Opcion cargar desde archivo
         system("cls")
-        direArch = input("Igrese la direccion del archivo: ")
+        direArch = input("Ingrese la direccion del archivo sin comillas simples, solo la pura direccion porfavor: ")
+        print(direArch)
 
-        with open(direArch, "r") as archivo:
-            datos = archivo.readlines()
-            for linea in datos:
-                print(f"{linea} \n")
+        positivoEnt = []
+        negativoEnt = []
+        with open(direArch, 'r') as arch:
+            for linea in arch:
+                enteros = re.findall(r'[-+]?\d+', linea)
+                for entero in enteros:
+                    if( entero.startswith('-') ):
+                        negativoEnt.append(  int(entero)  )
+                    else:
+                        positivoEnt.append(  int(entero)  )
 
-                try:
-                    valores = int( linea.strip(" ") )
-                    arbol.insertArchi(valores)
-                except ValueError:
-                    print(f"Ignorando los valores no enteros: {linea.strip(" ")}")
+        arbol.insertArchi(positivoEnt)
+        arbol.insertArchi(negativoEnt)
 
-        #valores = arbol.leerArchivo(direArch)
 
         graph = arbol.generate_graph()
         graph.render('Arbol_B_B', format='png', cleanup=True)
@@ -216,7 +207,3 @@ while True:
     else:
         system("cls")
         print("Opcion invalida, porfavor ingrese una opcion del menu")
-
-
-
-
