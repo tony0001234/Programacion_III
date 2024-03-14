@@ -195,11 +195,13 @@ while True:
         with open(direArch, "r") as archivo:
             datos = archivo.readlines()
             for linea in datos:
+                print(f"{linea} \n")
+
                 try:
-                    valores = int( linea.strip() )
+                    valores = int( linea.strip(" ") )
                     arbol.insertArchi(valores)
                 except ValueError:
-                    print(f"Ignorando los valores no enteros: {linea.strip()}")
+                    print(f"Ignorando los valores no enteros: {linea.strip(" ")}")
 
         #valores = arbol.leerArchivo(direArch)
 
