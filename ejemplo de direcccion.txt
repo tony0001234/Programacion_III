@@ -1,0 +1,1 @@
+\10 registros(id, nombre, dpi).csv

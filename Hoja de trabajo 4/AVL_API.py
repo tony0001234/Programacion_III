@@ -22,23 +22,23 @@ class ABB:
         Opciones = [
             {
                 "id": 1,
-                "title": "1. Cargar con un archivo CSV."
+                "title": "1. Cargar con un archivo CSV, escribir en url: /api/o1/cargaMasCSV/<direccion>   en el espacio de '<direccion>' escribir la direccion del archivo. EJ: T:/abs/hoja.csv"
             },
             {
                 "id": 2,
-                "title": "2. Insertar de forma manual."
+                "title": "2. Insertar de forma manual, escribir en url: /api/o2/insercionManual/<ID>/<nombre>/<DPI>   en los espacios de <ID>, <nombre>, <DPI>, escribir el ID, nombre y DPI respectivamente"
             },
             {
                 "id": 3,
-                "title": "3. Buscar un registro."
+                "title": "3. Buscar un registro por ID, escribir en url: /api/o3/buscarRegistroXID/<ID>   en <ID> escribir el ID que desea buscar."
             },
             {
                 "id": 4,
-                "title": "4. Mostrar la informacion del grupo."
+                "title": "3. Buscar un registro por DPI, escribir en url: /api/o4/buscarRegistroXDPI/<DPI>    en <DPI> escribri el DPI que desea buscar."
             },
             {
                 "id": 5,
-                "title": "5. Salir."
+                "title": "4. Mostrar la informacion del grupo, escribir en url: /api/o5/info/      para desplegar la informacion de los miembros del grupo."
             }
         ]
 
@@ -54,20 +54,49 @@ class ABB:
         def index():
             return jsonify({'respuesta':'done'}),200
 
-        @app.route('/api/o0/opciones/')
+        @app.route('/api/o0/opciones')########opcion 0
         def get_all_opciones():
             return jsonify(Opciones)
         
-        @app.route('/api/o1/cargaMasCSV/')
-        def carga_archivo_CSV():
-            return jsonify(Opciones)
+        @app.route('/api/o1/cargaMasCSV/<direccion>')########opcion 1
+        def carga_archivo_CSV(direccion):
+            self.agregarArch(direccion)
+            self.generar_arbol_grafico()
+            #probar generar un grapviz
+            return jsonify('Contenido agregado exitosamente')
 
-        @app.route('/api/o2/buscar/')
-        def get_info_nodos():
-            infoNodo = self.pasar_info_json()
-            return jsonify(infoNodo)
+        @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
+        def insercion_manual(ID, nombre, DPI):
+            self.insert(ID, nombre, DPI)
+            self.generar_arbol_grafico()
+            ##probar generar un grapviz
+            #infoNodo = self.pasar_info_json()
+            #return jsonify(infoNodo)
+            return jsonify(f'Contenido agregado exitosamente: ID:{ID}, nombre:{nombre}, DPI:{DPI}')
+        
+        @app.route('/api/o3/buscarRegistroXID/<ID>')########opcion 3
+        def buscar_info_ID(ID):
+            
+            try:
+                #self.agregarArch(direccion)
+                self.generar_arbol_grafico()
+                nodo = self.buscar(ID)
+            except:
+                "Error!!!!"
+                return jsonify({'respuesta': 'fail'}),400
 
-        @app.route('/api/o4/info/')
+            return jsonify(nodo)
+        
+        @app.route('/api/o4/buscarRegistroXDPI/<DPI>')########opcion 4
+        def buscar_DPI(DPI):
+
+            #self.agregarArch(direccion)
+            self.generar_arbol_grafico()
+            nodo = self.buscarPorDPI(self.raiz, DPI)
+            
+            return jsonify(nodo)
+
+        @app.route('/api/o5/info/')########opcion 5
         def get_info_grupo():
             return jsonify(info)
 
@@ -173,30 +202,28 @@ class ABB:
     def _buscar(self, valor, nodo):
         if nodo is None:
             print("No encontrado")
-            return nodoArbol(-1) 
+            return print(...)
         if nodo.valor == valor:
             print("Valor encontrado!!!")
-            return nodo
+            info = (f"{nodo.valor}: {nodo.nombre}, DPI: {nodo.DPI}")
+            return info
         if(valor < nodo.valor):
             return self._buscar(valor, nodo.izq)
         else:
             return self._buscar(valor, nodo.der)
     
-    def buscarPorDPI(self, DPI):
-        nodo = self.raiz
-        return self._buscarPorDPI(nodo, DPI)
-    def _buscarPorDPI(self, nodo, DPI):
-        if nodo is None:
-            print("....") 
-            return 1
+    def buscarPorDPI(self, nodo, DPI):
+        if not nodo:
+            return None
         if nodo.DPI == DPI:
-            print(nodo.DPI)
+            info = f"{nodo.valor}: {nodo.nombre}, DPI: {nodo.DPI}"
             print("Valor encontrado!!!")
-            return nodo
-            
-        self._buscarPorDPI(nodo.der, DPI)
-        self._buscarPorDPI(nodo.izq, DPI)
-        
+            return info
+        resultado_izq =self.buscarPorDPI(nodo.izq, DPI)
+        if resultado_izq:
+            return resultado_izq
+        return self.buscarPorDPI(nodo.der, DPI)
+
 
     def inorder(self, nodo):
         if nodo !=None:
@@ -237,17 +264,6 @@ class ABB:
                 #print(f"Altura nodo.der: {nodo.der.altura}")
             self.mostrar(nodo.izq)
             self.mostrar(nodo.der)
-            
-    def pasar_info_json(self):
-        nodo = self.raiz
-        return self._pasar_info_json(nodo)
-    def _pasar_info_jason(self, nodo):
-        if nodo !=None:
-            self.inorder(nodo.izq)
-            infoOrdenada = f'"{nodo.valor}": "{nodo.nombre}", "DPI": "{nodo.DPI}"'
-            infoMasOrdenada = f"[ {infoOrdenada} ,]" 
-            self.inorder(nodo.der)
-            return infoMasOrdenada
 
     def  generar_arbol_grafico(self):
         dot = graphviz.Digraph()
@@ -300,8 +316,9 @@ class ABB:
             node = node.der
         return node  
     
-    def agregarArch(self):
-        with open(input('Seleccione un archivo CSV: '),'r', newline='') as csvfile:
+    def agregarArch(self, direccion):
+
+        with open(direccion,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
             print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
@@ -318,55 +335,3 @@ class ABB:
       
 arbol = ABB()
 arbol.api_flask_j()
-'''
-opcion = 0
-while opcion != 5:
-    print("Elija una opcion a ejecutar:")
-    print("1. Cargar con un archivo CSV.")
-    print("2. Insertar de forma manual.")
-    print("3. Buscar un registro.")
-    print("4. Mostrar la informacion del grupo.")
-    print("5. Salir.")
-    opcion = int(input())
-
-    if opcion == 1:
-        arbol.agregarArch()
-        arbol.mostrar(arbol.raiz)
-        arbol.generar_arbol_grafico()
-        opcion = 0
-    elif opcion == 2:
-        numeroDeRegistros = int(input("Ingrese la cantidad de registros que desea ingresar: "))
-        while numeroDeRegistros != 0:
-            valor = int(input("Ingrese el id: "))
-            nombre = str(input("Ingrese el nombre: "))
-            numeroDPI = int(input("Ingrese el numero de DPI: "))
-            arbol.insert(valor, nombre, numeroDPI)
-            print("Siguiente registro: ")
-            print(" ")
-            numeroDeRegistros -= 1
-        arbol.mostrar(arbol.raiz)
-        arbol.generar_arbol_grafico()
-        opcion = 0
-    elif opcion == 3:
-        print("Ingrese la forma en la que desea buscar el registro: ")
-        print("1. ID")
-        print("2. DPI")
-        secOpcion = int(input("opcion: "))
-        if secOpcion == 1:
-            arbol.buscar(input("Ingrese el ID que desea buscar: "))
-
-        elif secOpcion == 2:
-                arbol.buscarPorDPI(input("Ingrese el DPI que desea buscar: "))
-
-        secOpcion = 0
-        opcion = 0
-    elif opcion == 4:
-        system("cls")
-        print(" ")
-        print("Nombre: Anthony Fabian Ramirez Orellana, Carne: 9490-22-958, % de participacion: 100%")
-        print(" ")
-
-    elif opcion == 5:
-        print("Adios .....")
-        break
-'''
