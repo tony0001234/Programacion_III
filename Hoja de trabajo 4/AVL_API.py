@@ -61,14 +61,14 @@ class ABB:
         @app.route('/api/o1/cargaMasCSV/<direccion>')########opcion 1
         def carga_archivo_CSV(direccion):
             self.agregarArch(direccion)
-            self.generar_arbol_grafico()
+            #self.generar_arbol_grafico()
             #probar generar un grapviz
             return jsonify('Contenido agregado exitosamente')
 
         @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
         def insercion_manual(ID, nombre, DPI):
             self.insert(ID, nombre, DPI)
-            self.generar_arbol_grafico()
+            #self.generar_arbol_grafico()
             ##probar generar un grapviz
             #infoNodo = self.pasar_info_json()
             #return jsonify(infoNodo)
@@ -79,7 +79,7 @@ class ABB:
             
             try:
                 #self.agregarArch(direccion)
-                self.generar_arbol_grafico()
+                #self.generar_arbol_grafico()
                 nodo = self.buscar(ID)
             except:
                 "Error!!!!"
@@ -91,7 +91,7 @@ class ABB:
         def buscar_DPI(DPI):
 
             #self.agregarArch(direccion)
-            self.generar_arbol_grafico()
+            #self.generar_arbol_grafico()
             nodo = self.buscarPorDPI(self.raiz, DPI)
             
             return jsonify(nodo)
