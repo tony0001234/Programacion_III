@@ -276,8 +276,7 @@ def get_all_opciones():
 @app.route("/api/o1/cargaMasCSV/", methods=["GET", "POST"])########opcion 1
 def carga_archivo_CSV():
     try:   
-        if arbol.agregarArch() is None:
-            return jsonify({'respuesta': 'fail'}),400
+        arbol.agregarArch()
         #self.generar_arbol_grafico()
         #probar generar un grapviz
         return jsonify({'respuesta': 'agregado'}),200
