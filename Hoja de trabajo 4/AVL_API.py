@@ -272,7 +272,7 @@ def index():
 def get_all_opciones():
     return jsonify(Opciones)
 
-@app.route("/api/o1/cargaMasCSV/", methods=["POST"])########opcion 1
+@app.route("/api/o1/cargaMasCSV/", methods=["GET", "POST"])########opcion 1
 def carga_archivo_CSV():
     try:   
         if arbol.agregarArch() is None:
