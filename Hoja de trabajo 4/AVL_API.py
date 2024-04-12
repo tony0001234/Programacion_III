@@ -211,7 +211,7 @@ class ABB:
     def agregarArch(self):
 
         direccion = os.path.dirname(os.path.abspath(__file__))
-        archivo = os.path.join(direccion, 'source', '10 registros(id, nombre, dpi).csv')
+        archivo = os.path.join(direccion, 'source', 'Hoja de trabajo 4/10 registros(id, nombre, dpi).csv')
 
         with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
@@ -265,11 +265,7 @@ info = [
     }
 ]
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    return jsonify({'respuesta':'done'}),200
-
-@app.route('/api/o0/opciones')########opcion 0
+@app.route('/')########opcion 0
 def get_all_opciones():
     return jsonify(Opciones)
 
