@@ -217,18 +217,19 @@ class ABB:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
-            for encabezado in lector_csv.fieldnames:
-                #encabezado = lector_csv.fieldnames[i]
-                for fila in lector_csv:
-                    try:
-                        #print(fila[encabezado])
-                        datosSeparados = fila[encabezado].split(";")
-                        self.insert(datosSeparados[0], datosSeparados[1], datosSeparados[2])
-                        return True
-                    except KeyError:
-                        #print("no existe la columna 'id' en la fila")
-                        return False
-      
+            for fila in lector_csv:
+                try:
+                    # Obtener los datos de la fila
+                    id = fila['ID']
+                    nombre = fila['nombre']
+                    dpi = fila['dpi']
+                    
+                    # Insertar los datos en el AVL
+                    self.insert(id, nombre, dpi)
+                except KeyError:
+                    # Si no se encuentran las columnas requeridas, ignorar la fila
+                    continue
+        return True
 arbol = ABB()
 
 app = Flask(__name__)
