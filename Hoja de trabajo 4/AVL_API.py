@@ -219,6 +219,7 @@ class ABB:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
+            info = []
             for encabezado in lector_csv.fieldnames:
                 #encabezado = lector_csv.fieldnames[i]
                 for fila in lector_csv:
@@ -230,21 +231,19 @@ class ABB:
                         DPI = datosSeparados[2]
                         self.insert(ID, nombre, DPI)
 
-                        info = []
                         
-                        for ID, nombre, DPI in zip(ID, nombre, DPI):
-                            fila = {
-                                "ID": ID,
-                                "Nombre": nombre,
-                                "DPI": DPI
-                            }
-                            info.append(fila)
-                        json_info = jsonify(info)
+                        fila = {
+                            "ID": ID,
+                            "Nombre": nombre,
+                            "DPI": DPI
+                        }
+                        info.append(fila)
 
                     except KeyError:
                         #print("no existe la columna 'id' en la fila")
                         json_info =("no......")
                         continue
+            json_info = jsonify(info)
         return json_info
 
             
