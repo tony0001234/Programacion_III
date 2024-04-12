@@ -1,6 +1,6 @@
 import graphviz, csv
 from flask import Flask, request, jsonify
-from os import system, startfile
+#from os import system, startfile
 
 class nodoArbol:
     def __init__(self, valor, nombre, DPI):
@@ -264,25 +264,6 @@ class ABB:
                 #print(f"Altura nodo.der: {nodo.der.altura}")
             self.mostrar(nodo.izq)
             self.mostrar(nodo.der)
-
-    def  generar_arbol_grafico(self):
-        dot = graphviz.Digraph()
-        self._generar_arbol_grafico(self.raiz, dot)
-
-        archivo_salida = "arbol.dot"
-        dot.render(archivo_salida , format='png', cleanup=True)
-
-        startfile(archivo_salida + '.png')
-
-    def _generar_arbol_grafico(self, nodo, dot):
-        if nodo is not None:
-            dot.node(str(nodo.valor))
-            if nodo.izq is not None:
-                dot.edge(str(nodo.valor), str(nodo.izq.valor))
-                self._generar_arbol_grafico(nodo.izq, dot)
-            if nodo.der is not None:
-                dot.edge(str(nodo.valor), str(nodo.der.valor))
-                self._generar_arbol_grafico(nodo.der, dot)
 
     def delete(self, valor):
         self.raiz = self._delete(self.raiz, valor)
