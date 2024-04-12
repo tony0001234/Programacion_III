@@ -215,7 +215,7 @@ class ABB:
 
         with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
-            print("encabezados: ", lector_csv.fieldnames)
+            #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
             for encabezado in lector_csv.fieldnames:
                 #encabezado = lector_csv.fieldnames[i]
@@ -226,7 +226,7 @@ class ABB:
                         self.insert(datosSeparados[0], datosSeparados[1], datosSeparados[2])
 
                     except KeyError:
-                        print("no existe la columna 'id' en la fila")
+                        #print("no existe la columna 'id' en la fila")
       
 arbol = ABB()
 
