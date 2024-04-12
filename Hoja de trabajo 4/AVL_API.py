@@ -211,7 +211,7 @@ class ABB:
     def agregarArch(self):
 
         direccion = os.path.dirname(os.path.abspath(__file__))
-        archivo = os.path.join(direccion, 'source', 'Air_Quality_desordenado.csv')
+        archivo = os.path.join(direccion, 'source', '10 registros(id, nombre, dpi).csv')
 
         with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
