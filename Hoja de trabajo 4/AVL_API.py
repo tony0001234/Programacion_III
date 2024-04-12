@@ -277,9 +277,9 @@ def carga_archivo_CSV():
         arbol.agregarArch()
         #self.generar_arbol_grafico()
         #probar generar un grapviz
-        return jsonify('Contenido agregado exitosamente'),200
+        return jsonify({'respuesta': 'agregado'}),200
     except:
-        return jsonify('Error!!!!!'),400
+        return jsonify({'respuesta': 'fail'}),400
 
 @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
 def insercion_manual(ID, nombre, DPI):
