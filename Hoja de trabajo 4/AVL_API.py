@@ -227,6 +227,7 @@ class ABB:
 
                     except KeyError:
                         #print("no existe la columna 'id' en la fila")
+                        return ("error")
       
 arbol = ABB()
 
