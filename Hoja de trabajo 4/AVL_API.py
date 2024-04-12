@@ -224,10 +224,10 @@ class ABB:
                         #print(fila[encabezado])
                         datosSeparados = fila[encabezado].split(";")
                         self.insert(datosSeparados[0], datosSeparados[1], datosSeparados[2])
-
+                        return True
                     except KeyError:
                         #print("no existe la columna 'id' en la fila")
-                        return ("error")
+                        return False
       
 arbol = ABB()
 
@@ -275,7 +275,8 @@ def get_all_opciones():
 @app.route("/api/o1/cargaMasCSV/", methods=("POST"))########opcion 1
 def carga_archivo_CSV():
     try:   
-        arbol.agregarArch()
+        if arbol.agregarArch() is None:
+            return jsonify({'respuesta': 'fail'}),400
         #self.generar_arbol_grafico()
         #probar generar un grapviz
         return jsonify({'respuesta': 'agregado'}),200
@@ -299,7 +300,6 @@ def buscar_info_ID(ID):
         #self.generar_arbol_grafico()
         nodo = arbol.buscar(ID)
     except:
-        "Error!!!!"
         return jsonify({'respuesta': 'fail'}),400
 
     return jsonify(nodo)
