@@ -217,7 +217,7 @@ class ABB:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
-            ''''''
+            
             for fila in lector_csv:
                 try:
                     # Obtener los datos de la fila
@@ -231,6 +231,7 @@ class ABB:
                     # Si no se encuentran las columnas requeridas, ignorar la fila
                     continue
         return True
+            
 arbol = ABB()
 
 app = Flask(__name__)
@@ -274,7 +275,7 @@ def get_all_opciones():
 def carga_archivo_CSV():
     if arbol.agregarArch() is False:
         return jsonify({'respuesta': 'fail'}),400
-    else
+    else:
         #self.generar_arbol_grafico()
         #probar generar un grapviz
         return jsonify({'respuesta': 'agregado'}),200
