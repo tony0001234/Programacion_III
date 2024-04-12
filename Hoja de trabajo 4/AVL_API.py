@@ -211,25 +211,27 @@ class ABB:
     def agregarArch(self):
 
         direccion = os.path.dirname(os.path.abspath(__file__))
-        archivo = os.path.join(direccion, 'Hoja de trabajo 4', '10 registros(id, nombre, dpi).csv')
-
+        #direccion = direccion.replace("\\", '\')
+        #archivo = f"{direccion}\Hoja de trabajo 4\10 registros(id, nombre, dpi).csv"
+        archivo = os.path.join(direccion, '10 registros(id, nombre, dpi).csv')
+        #archivo = archivo.replace( "\\", '/' )
         with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
-            for fila in lector_csv:
-                try:
-                    # Obtener los datos de la fila
-                    id = fila['ID']
-                    nombre = fila['nombre']
-                    dpi = fila['DPI']
-                    resp = "insertado... "
-                    # Insertar los datos en el AVL
-                    self.insert(id, nombre, dpi)
-                except KeyError:
-                    # Si no se encuentran las columnas requeridas, ignorar la fila
-                    resp = "no insertado... "
-                    continue
+            for encabezado in lector_csv.fieldnames:
+                #encabezado = lector_csv.fieldnames[i]
+                for fila in lector_csv:
+                    try:
+                        #print(fila[encabezado])
+                        datosSeparados = fila[encabezado].split(";")
+                        self.insert(datosSeparados[0], datosSeparados[1], datosSeparados[2])
+                        resp = ("insertado... ")
+
+                    except KeyError:
+                        #print("no existe la columna 'id' en la fila")
+                        resp =("no......")
+                        continue
         return resp
 
             
