@@ -15,96 +15,6 @@ class ABB:
     def __init__(self):
         self.raiz = None
 
-    ''''''
-    def api_flask_j(self):
-        app = Flask(__name__)
-
-        Opciones = [
-            {
-                "id": 1,
-                "title": "1. Cargar con un archivo CSV, escribir en url: /api/o1/cargaMasCSV/<direccion>   en el espacio de '<direccion>' escribir la direccion del archivo. EJ: T:/abs/hoja.csv"
-            },
-            {
-                "id": 2,
-                "title": "2. Insertar de forma manual, escribir en url: /api/o2/insercionManual/<ID>/<nombre>/<DPI>   en los espacios de <ID>, <nombre>, <DPI>, escribir el ID, nombre y DPI respectivamente"
-            },
-            {
-                "id": 3,
-                "title": "3. Buscar un registro por ID, escribir en url: /api/o3/buscarRegistroXID/<ID>   en <ID> escribir el ID que desea buscar."
-            },
-            {
-                "id": 4,
-                "title": "3. Buscar un registro por DPI, escribir en url: /api/o4/buscarRegistroXDPI/<DPI>    en <DPI> escribri el DPI que desea buscar."
-            },
-            {
-                "id": 5,
-                "title": "4. Mostrar la informacion del grupo, escribir en url: /api/o5/info/      para desplegar la informacion de los miembros del grupo."
-            }
-        ]
-
-        info = [
-            {
-                "Nombre": "Anthony Fabian Ramirez Orellana",
-                "Carne": "9490-22-958",
-                "% de participacion": "100%"
-            }
-        ]
-
-        @app.route('/', methods=['GET', 'POST'])
-        def index():
-            return jsonify({'respuesta':'done'}),200
-
-        @app.route('/api/o0/opciones')########opcion 0
-        def get_all_opciones():
-            return jsonify(Opciones)
-        
-        @app.route('/api/o1/cargaMasCSV/<direccion>')########opcion 1
-        def carga_archivo_CSV(direccion):
-            self.agregarArch(direccion)
-            #self.generar_arbol_grafico()
-            #probar generar un grapviz
-            return jsonify('Contenido agregado exitosamente')
-
-        @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
-        def insercion_manual(ID, nombre, DPI):
-            self.insert(ID, nombre, DPI)
-            #self.generar_arbol_grafico()
-            ##probar generar un grapviz
-            #infoNodo = self.pasar_info_json()
-            #return jsonify(infoNodo)
-            return jsonify(f'Contenido agregado exitosamente: ID:{ID}, nombre:{nombre}, DPI:{DPI}')
-        
-        @app.route('/api/o3/buscarRegistroXID/<ID>')########opcion 3
-        def buscar_info_ID(ID):
-            
-            try:
-                #self.agregarArch(direccion)
-                #self.generar_arbol_grafico()
-                nodo = self.buscar(ID)
-            except:
-                "Error!!!!"
-                return jsonify({'respuesta': 'fail'}),400
-
-            return jsonify(nodo)
-        
-        @app.route('/api/o4/buscarRegistroXDPI/<DPI>')########opcion 4
-        def buscar_DPI(DPI):
-
-            #self.agregarArch(direccion)
-            #self.generar_arbol_grafico()
-            nodo = self.buscarPorDPI(self.raiz, DPI)
-            
-            return jsonify(nodo)
-
-        @app.route('/api/o5/info/')########opcion 5
-        def get_info_grupo():
-            return jsonify(info)
-
-
-        if __name__ == "__main__":
-            app.run(debug=True)
-
-    ''''''
     def insert(self, valor, nombre, DPI):
         self.raiz = self._insert(valor, self.raiz, nombre, DPI)
 
@@ -315,4 +225,90 @@ class ABB:
                         print("no existe la columna 'id' en la fila")
       
 arbol = ABB()
-arbol.api_flask_j()
+
+app = Flask(__name__)
+
+Opciones = [
+    {
+        "id": 1,
+        "title": "1. Cargar con un archivo CSV, escribir en url: /api/o1/cargaMasCSV/<direccion>   en el espacio de '<direccion>' escribir la direccion del archivo. EJ: T:/abs/hoja.csv"
+    },
+    {
+        "id": 2,
+        "title": "2. Insertar de forma manual, escribir en url: /api/o2/insercionManual/<ID>/<nombre>/<DPI>   en los espacios de <ID>, <nombre>, <DPI>, escribir el ID, nombre y DPI respectivamente"
+    },
+    {
+        "id": 3,
+        "title": "3. Buscar un registro por ID, escribir en url: /api/o3/buscarRegistroXID/<ID>   en <ID> escribir el ID que desea buscar."
+    },
+    {
+        "id": 4,
+        "title": "3. Buscar un registro por DPI, escribir en url: /api/o4/buscarRegistroXDPI/<DPI>    en <DPI> escribri el DPI que desea buscar."
+    },
+    {
+        "id": 5,
+        "title": "4. Mostrar la informacion del grupo, escribir en url: /api/o5/info/      para desplegar la informacion de los miembros del grupo."
+    }
+]
+
+info = [
+    {
+        "Nombre": "Anthony Fabian Ramirez Orellana",
+        "Carne": "9490-22-958",
+        "% de participacion": "100%"
+    }
+]
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return jsonify({'respuesta':'done'}),200
+
+@app.route('/api/o0/opciones')########opcion 0
+def get_all_opciones():
+    return jsonify(Opciones)
+
+@app.route('/api/o1/cargaMasCSV/<direccion>')########opcion 1
+def carga_archivo_CSV(direccion):
+    arbol.agregarArch(direccion)
+    #self.generar_arbol_grafico()
+    #probar generar un grapviz
+    return jsonify('Contenido agregado exitosamente')
+
+@app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
+def insercion_manual(ID, nombre, DPI):
+    arbol.insert(ID, nombre, DPI)
+    #self.generar_arbol_grafico()
+    ##probar generar un grapviz
+    #infoNodo = self.pasar_info_json()
+    #return jsonify(infoNodo)
+    return jsonify(f'Contenido agregado exitosamente: ID:{ID}, nombre:{nombre}, DPI:{DPI}')
+
+@app.route('/api/o3/buscarRegistroXID/<ID>')########opcion 3
+def buscar_info_ID(ID):
+    
+    try:
+        #self.agregarArch(direccion)
+        #self.generar_arbol_grafico()
+        nodo = arbol.buscar(ID)
+    except:
+        "Error!!!!"
+        return jsonify({'respuesta': 'fail'}),400
+
+    return jsonify(nodo)
+
+@app.route('/api/o4/buscarRegistroXDPI/<DPI>')########opcion 4
+def buscar_DPI(DPI):
+
+    #self.agregarArch(direccion)
+    #self.generar_arbol_grafico()
+    nodo = arbol.buscarPorDPI(arbol.raiz, DPI)
+    
+    return jsonify(nodo)
+
+@app.route('/api/o5/info/')########opcion 5
+def get_info_grupo():
+    return jsonify(info)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
