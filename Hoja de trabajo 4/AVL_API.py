@@ -225,14 +225,27 @@ class ABB:
                     try:
                         #print(fila[encabezado])
                         datosSeparados = fila[encabezado].split(";")
-                        self.insert(datosSeparados[0], datosSeparados[1], datosSeparados[2])
-                        resp = ("insertado... ")
+                        ID = datosSeparados[0]
+                        nombre = datosSeparados[1]
+                        DPI = datosSeparados[2]
+                        self.insert(ID, nombre, DPI)
+
+                        info = []
+                        
+                        for ID, nombre, DPI in zip(ID, nombre, DPI):
+                            fila = {
+                                "ID": ID,
+                                "Nombre": nombre,
+                                "DPI": DPI
+                            }
+                            info.append(fila)
+                        json_info = jsonify(info)
 
                     except KeyError:
                         #print("no existe la columna 'id' en la fila")
-                        resp =("no......")
+                        json_info =("no......")
                         continue
-        return resp
+        return json_info
 
             
 arbol = ABB()
