@@ -220,9 +220,9 @@ class ABB:
             for fila in lector_csv:
                 try:
                     # Obtener los datos de la fila
-                    id = fila['ID']
+                    id = fila['id']
                     nombre = fila['nombre']
-                    dpi = fila['dpi']
+                    dpi = fila['DPI']
                     
                     # Insertar los datos en el AVL
                     self.insert(id, nombre, dpi)
