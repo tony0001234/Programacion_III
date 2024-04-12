@@ -217,20 +217,21 @@ class ABB:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
-            
             for fila in lector_csv:
                 try:
                     # Obtener los datos de la fila
                     id = fila[lector_csv.fieldnames[0]]
                     nombre = fila[lector_csv.fieldnames[1]]
                     dpi = fila[lector_csv.fieldnames[2]]
-                    
+                    resp = "insertado... "
                     # Insertar los datos en el AVL
                     self.insert(id, nombre, dpi)
                 except KeyError:
                     # Si no se encuentran las columnas requeridas, ignorar la fila
+                    resp = "no insertado... "
                     continue
-        return True
+        return resp
+
             
 arbol = ABB()
 
@@ -273,12 +274,8 @@ def get_all_opciones():
 
 @app.route("/api/o1/cargaMasCSV", methods=["GET", "POST"])########opcion 1
 def carga_archivo_CSV():
-    if arbol.agregarArch() is False:
-        return jsonify({'respuesta': 'fail'}),400
-    else:
-        #self.generar_arbol_grafico()
-        #probar generar un grapviz
-        return jsonify({'respuesta': 'agregado'}),200
+    
+    return jsonify({'respuesta': {arbol.agregarArch()} } )
 
         
 
