@@ -211,12 +211,13 @@ class ABB:
     def agregarArch(self):
 
         direccion = os.path.dirname(os.path.abspath(__file__))
-        archivo = os.path.join(direccion, 'source', '/10 registros(id, nombre, dpi).csv')
+        archivo = os.path.join(direccion, 'source', '10 registros(id, nombre, dpi).csv')
 
         with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
             #print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
+            ''''''
             for fila in lector_csv:
                 try:
                     # Obtener los datos de la fila
@@ -271,13 +272,14 @@ def get_all_opciones():
 
 @app.route("/api/o1/cargaMasCSV", methods=["GET", "POST"])########opcion 1
 def carga_archivo_CSV():
-    try:   
-        arbol.agregarArch()
+    if arbol.agregarArch() is False:
+        return jsonify({'respuesta': 'fail'}),400
+    else
         #self.generar_arbol_grafico()
         #probar generar un grapviz
         return jsonify({'respuesta': 'agregado'}),200
-    except:
-        return jsonify({'respuesta': 'fail'}),400
+
+        
 
 @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
 def insercion_manual(ID, nombre, DPI):
