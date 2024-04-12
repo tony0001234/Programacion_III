@@ -220,9 +220,9 @@ class ABB:
             for fila in lector_csv:
                 try:
                     # Obtener los datos de la fila
-                    id = fila[lector_csv.fieldnames[0]]
-                    nombre = fila[lector_csv.fieldnames[1]]
-                    dpi = fila[lector_csv.fieldnames[2]]
+                    id = fila['ID']
+                    nombre = fila['nombre']
+                    dpi = fila['DPI']
                     resp = "insertado... "
                     # Insertar los datos en el AVL
                     self.insert(id, nombre, dpi)
@@ -274,8 +274,12 @@ def get_all_opciones():
 
 @app.route("/api/o1/cargaMasCSV", methods=["GET", "POST"])########opcion 1
 def carga_archivo_CSV():
-    
-    return jsonify({'respuesta': {arbol.agregarArch()} } )
+    try:
+        resp = arbol.agregarArch()
+    except KeyError:
+        resp = "Error"
+
+    return resp
 
         
 
