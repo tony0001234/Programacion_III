@@ -254,19 +254,19 @@ app = Flask(__name__)
 Opciones = [
     {
         "id": 1,
-        "title": "1. Cargar con un archivo CSV, escribir en url: /api/o1/cargaMasCSV/  en el espacio de '<direccion>' escribir la direccion del archivo. EJ: T:/abs/hoja.csv"
+        "title": "1. Cargar con un archivo CSV, escribir en url: /api/o1/cargaMasCSV/ "
     },
     {
         "id": 2,
-        "title": "2. Insertar de forma manual, escribir en url: /api/o2/insercionManual/'<ID>'/'<nombre>'/'<DPI>'   en los espacios de '<ID>', '<nombre>', '<DPI>', escribir el ID, nombre y DPI respectivamente"
+        "title": "2. Insertar de forma manual, escribir en url: /api/o2/insercionManual/ID/nombre/DPI   en los espacios de ID, nombre, DPI, escribir el ID, nombre y DPI respectivamente"
     },
     {
         "id": 3,
-        "title": "3. Buscar un registro por ID, escribir en url: /api/o3/buscarRegistroXID/'<ID>'   en '<ID>' escribir el ID que desea buscar."
+        "title": "3. Buscar un registro por ID, escribir en url: /api/o3/buscarRegistroXID/ID   en ID escribir el ID que desea buscar."
     },
     {
         "id": 4,
-        "title": "3. Buscar un registro por DPI, escribir en url: /api/o4/buscarRegistroXDPI/'<DPI>'    en '<DPI>' escribri el DPI que desea buscar."
+        "title": "3. Buscar un registro por DPI, escribir en url: /api/o4/buscarRegistroXDPI/DPI    en DPI escribri el DPI que desea buscar."
     },
     {
         "id": 5,
