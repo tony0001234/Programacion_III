@@ -1,5 +1,6 @@
 import graphviz, csv
 from flask import Flask, request, jsonify
+import os
 #from os import system, startfile
 
 class nodoArbol:
@@ -207,9 +208,12 @@ class ABB:
             node = node.der
         return node  
     
-    def agregarArch(self, direccion):
+    def agregarArch(self):
 
-        with open(direccion,'r', newline='') as csvfile:
+        direccion = os.path.dirname(os.path.abspath(__file__))
+        archivo = os.path.join(direccion, 'source', 'Air_Quality_desordenado.csv')
+
+        with open(archivo,'r', newline='') as csvfile:
             lector_csv = csv.DictReader(csvfile)
             print("encabezados: ", lector_csv.fieldnames)
             #encabezado = lector_csv.fieldnames[0]
@@ -267,12 +271,15 @@ def index():
 def get_all_opciones():
     return jsonify(Opciones)
 
-@app.route('/api/o1/cargaMasCSV/<direccion>')########opcion 1
-def carga_archivo_CSV(direccion):
-    arbol.agregarArch(direccion)
-    #self.generar_arbol_grafico()
-    #probar generar un grapviz
-    return jsonify('Contenido agregado exitosamente')
+@app.route('/api/o1/cargaMasCSV/', methods=('POST'))########opcion 1
+def carga_archivo_CSV():
+    try:   
+        arbol.agregarArch()
+        #self.generar_arbol_grafico()
+        #probar generar un grapviz
+        return jsonify('Contenido agregado exitosamente'),200
+    except:
+        return jsonify('Error!!!!!'),400
 
 @app.route('/api/o2/insercionManual/<ID>/<nombre>/<DPI>')########opcion 2
 def insercion_manual(ID, nombre, DPI):
